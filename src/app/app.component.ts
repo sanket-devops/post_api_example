@@ -12,25 +12,21 @@ declare let toastr: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   dataTable;
-  data: Idata = <any> {};
-
+  data: Idata = <any>{};
   constructor(public testService: TestService) {
   }
-
   ngOnInit() {
     this.loadData();
   }
-
   add() {
-    this.data = <any> {};
+    this.data = <any>{};
   }
-
   loadData() {
     this.testService.getApi().subscribe((data: Idata[]) => {
       if (this.dataTable) {
         this.dataTable.destroy();
+        toastr.success('Data Loaded Sucsessfully!');
       }
       this.dataTable = $('#example').DataTable({
         data: data,
@@ -62,7 +58,6 @@ export class AppComponent implements OnInit {
             this.loadData();
             toastr.success('Data Deleted Sucsessfully!');
           });
-
           $('button[name=\'action_edit\']').on('click', async (event: Event) => {
             let element = $(event.target);
             let id: string = element.data('id');
@@ -71,14 +66,12 @@ export class AppComponent implements OnInit {
             console.log(id);
             $('#myModal').modal('show');
             let res = await this.testService.getById(id).toPromise();
-            this.data = <any> res;
+            this.data = <any>res;
           });
         }
       });
-
     });
   }
-
   async saveData() {
     // console.log(this.data);
 
@@ -96,5 +89,4 @@ export class AppComponent implements OnInit {
       toastr.success('Data Added Sucsessfully!');
     }
   }
-
 }
